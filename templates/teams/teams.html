@@ -1,0 +1,164 @@
+{% extends 'core/base.html' %}
+{% block content %}
+{% include 'core/navbar/main.html' %}
+
+    <div class="container-fluid page-header py-6 my-6 mt-0 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center">
+            <h1 class="display-4 text-white animated slideInDown mb-4">Times Registrados</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Times</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7 bg-dark py-3">
+				<div class="card sm-6 bg-dark">
+	  				<div class="card-body text-center">
+	  				  <h4 class="card-title">Seus Times</h4>
+					  </div>
+				</div>
+                <div class="row">
+				{% for i in self_times %}
+				  <div class="col-sm-6">
+				    <div class="card bg-dark">
+				      <div class="card-body">
+				        <h5 class="card-title">Special title treatment</h5>
+				        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+				        <a href="#" class="btn btn-primary">Go somewhere</a>
+				      </div>
+				    </div>
+				  </div>
+				  {% endfor %}
+					
+				</div>
+            </div>
+            <div class="col-md-2">
+                <div class="p-3 py-5 card bg-dark">
+                    <h5>
+                        Registre seu Time sem pagar nada
+                    </h5>
+                    <div id='register-box'>
+                        
+                    </div>
+                    {% csrf_token %}
+                    <button id="time-register" class="btn btn-outline-primary">
+                        Criar Time
+                    </button>
+                </div>
+            </div>
+        </div>  
+    </div>
+    {% for i in object_list %}
+    <div class="container mt-5">
+    
+    <div class="row d-flex justify-content-center">
+        
+        <div class="col-md-7">
+            
+            <div class="card bg-dark p-3 py-4">
+                
+                <div class="text-center">
+                    <img src="{{i.banner.url}}" width="100" class="rounded-circle">
+                </div>
+                
+                <div class="text-center mt-3">
+                    <span class="bg-dark p-1 px-4 rounded text-white">Time</span>
+                    <h5 class="mt-2 mb-0">{{i}}</h5>
+                    <span>{{i.subtitle}}</span>
+
+                    <div class="px-4 mt-1">
+                        <p class="fonts"></p>
+                    
+                    </div>
+                    
+                     <ul class="social-list">
+                        <li><i class="fa fa-facebook"></i></li>
+                        <li><i class="fa fa-instagram"></i></li>
+                        <li><i class="fa fa-linkedin"></i></li>
+                    </ul>
+                    
+                    <div class="buttons">
+                        <a href="{% url 'times:time-profile' i.pk %}">
+                        	
+                        <button class="btn btn-outline-primary px-4">
+                        	Inscrever-se
+                        </button>
+                        </a>
+                        <button class="btn btn-primary px-4 ms-3">Contato</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    {% endfor %}
+
+
+
+
+
+
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    var registro_ativo = false;
+    var registro_baixado = false;
+    var registro_string = 'None';
+    function turn_registerTime(){
+        if (registro_ativo == true) {
+            registro_ativo = false;
+            $.ajax({
+                    type:'POST',
+                    url:'{% url "times:time-register-ajax" %}',
+                    data:{
+                        name:$('#id_name').val(),
+                        instagram:$('#id_instagram').val(),
+                        twitter:$('#id_twitter').val(),
+                        youtube:$('#id_youtube').val(),
+                        email:$('#id_email').val(),
+                        phone:$('#id_phone').val(),
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                    },          
+                    success: function(json){   
+                        console.log(json)
+                    }   
+                });
+            document.getElementById('register-box').innerHTML = "";
+        }else{
+            if (registro_baixado==true){
+                document.getElementById('register-box').innerHTML = registro_string;
+                console.log("horex");
+                registro_ativo=true
+            }else{
+                  $.ajax({
+                    type:'POST',
+                    url:'{% url "times:time-register-form-ajax" %}',
+                    data:{
+                        l2:$('#l2').val(),
+                        l3:$('#l3').val(),
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                    },          
+                    success: function(json){   
+                        document.getElementById('register-box').innerHTML = json.formhtml;
+                        registro_ativo = true;
+                        registro_baixado = true;
+                        registro_string = json.formhtml;
+                        console.log(registro_string)
+                    }   
+                })
+            };
+
+        };
+    };
+    document.getElementById("time-register").addEventListener(
+        "click",
+        turn_registerTime
+    )
+
+</script>
+{% endblock %}

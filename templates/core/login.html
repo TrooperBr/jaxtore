@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+
+{% block content %} 
+{% include 'core/navbar/register.html' %}
+{% load crispy_forms_tags %}         
+
+<!--Register--> 
+    <div class="main">
+            <div class="signup-content">
+<div class="container d-flex justify-content-center  py-5" style="color: #fff;">
+	<div class=''>
+		<h1>Login</h1>
+		<form method="POST">
+			{% csrf_token %}
+			{{ login_form|crispy }}      
+			<br>              
+			<button class="btn btn-primary" type="submit">Login	</button>
+		</form>
+		<p class="text-center">Registre-se, <a href="/login">aqui</a>.</p>
+	</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% load static %}
+
+    <nav class="navbar navbar-expand-lg bg-main navbar-dark sticky-top p-0 lol-font">
+        <a href="{% url 'times:home' %}" class="navbar-brand d-flex align-items-center border-end px-4 px-lg-5">
+            <h2 class="m-0">DungleG</h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">   
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div style="" class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="{% url 'times:home' %}" class="nav-item nav-link active">Home</a>
+                <a href="https://www.instagram.com/jax.jg/" class="nav-item nav-link">Sobre nós</a>
+                <a href="{% url 'times:champs' %}" class="nav-item nav-link">Campionatos</a>
+                <a href="{% url 'times:search_times' %}" class="nav-item nav-link">Times</a>
+                <a href="{% url 'times:home' %}" class="nav-item nav-link">Contato</a>
+            </div>
+            {% if user.is_authenticated %}
+            {% if user.player %}
+            <a href="{% url 'times:player' user.player.id %}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">{{ user.username }}<i class="fa fa-arrow-down ms-3"></i></a>
+            {% else %}            
+            <a href="{% url 'times:player-register' %}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Finalizar Cadastro<i class="fa fa-arrow-down ms-3"></i></a>
+            {% endif %}
+            {% else %}
+            <a href="{% url 'times:login' %}" class="btn btn-primary py-4 px-lg-1 d-none d-lg-block" style="background-color: #212121; color: #f3bd00;">Login</a>
+            <a href="{% url 'times:register' %}" class="btn btn-primary py-4 px-lg-3 d-none d-lg-block">Registre-se<i class="fa fa-arrow-right ms-3"></i></a>
+            {% endif %}
+        </div>
+    </nav>

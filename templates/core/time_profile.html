@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<form method="POST">
+	{% csrf_token %}
+<button type="submit">
+
+	{% if invit %}
+		{% if invit.to_player %}
+			{% if invit.is_ingrece %}
+				Sair
+			{% else %}
+				Entrar
+			{% endif %}
+		{% else %}
+			{% if invit.is_ingrece %}
+				Sair
+			{% else %}
+				Cancelar Inscrição
+			{% endif %}
+		{% endif %}
+	{% else %}
+		Inscrever-se
+	{% endif %}
+</button>
+</form>
+{% endblock %}

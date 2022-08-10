@@ -1,0 +1,6 @@
+{% load crispy_forms_tags %} 
+<form>
+	{% csrf_token %}
+	{{form|crispy}}
+</form>
+<button id='registro-times' class='btn'>Registre-se</button>

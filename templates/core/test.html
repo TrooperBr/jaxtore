@@ -1,0 +1,22 @@
+{% include 'core/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+	
+	<!-- image redimencionalizador-->
+	<img src="{% static 'images/wallpapers/wallpaper-1.png' %}" id="height"></div>
+	<script type="text/javascript">
+		const heightOutput = document.querySelector("#height");
+		const widthOutput = document.querySelector("#width");
+		
+		function resizeListener() {
+		  heightOutput.height = window.innerHeight;
+		};
+		resizeListener()
+		window.addEventListener("resize", resizeListener);
+	</script>
+
+{% endblock %}

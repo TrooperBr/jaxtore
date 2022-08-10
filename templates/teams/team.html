@@ -1,0 +1,99 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+{% include 'core/navbar/main.html' %}
+<style type="text/css">
+    .icon {
+    background: url('your-image-url.jpg');
+    height: 20px;
+    width: 20px;
+    display: block;
+    /* Other styles here */
+}
+</style>
+<section>
+    <div class="container-fluid page-header py-6 my-6 mt-0 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center">
+            <h1 class="display-4 text-white animated slideInDown mb-4">{{object.name}}</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="{% url 'times:home' %}">Home</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page"><a class="text-white" href="{% url 'times:search_times' %}">times</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">{{object.name}}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</section>
+<section>
+    <h1>{{invit}}</h1>
+    <div class="container-xxl py-6 lol-font">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                <h6 class="text-primary text-uppercase mb-2">Time</h6>
+                <h1 style="color: #fff;" class="display-6 mb-4">{{object.name}}</h1>
+                <form method="POST">
+    {% csrf_token %}
+<button class='btn' style="background-color: #8E24AA;" type="submit">
+    {% if user.is_authenticated %}
+        {% if invit != False %}
+            {% if invit.to_player %}
+                {% if invit.is_ingrece %}
+                    Sair
+                {% else %}
+                    Entrar
+                {% endif %}
+            {% else %}
+                {% if invit.is_ingrece %}
+                    Sair
+                {% else %}
+                    Cancelar Inscrição
+                {% endif %}
+            {% endif %}
+        {% else %}
+            Inscrever-se
+        {% endif %}
+    {% else %}
+        Registre-se 
+    {% endif %}
+</button>
+</form>
+            </div>
+            <div class="row g-0 team-items">
+                {% for i in object.players.all %}
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item position-relative">
+                        <div class="position-relative">
+                            <img class="img-fluid" src="img/team-2.jpg" alt="">
+                            <div class="team-social text-center">
+                                {% for j in i.ranking.all %}
+                                    <img class="icon" src='{{ j.img.url }}'></img>
+                                {% endfor %}
+                                {% if i.facebook %}
+                                <a class="btn btn-square btn-outline-primary border-2 m-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                {% endif %}
+                                {% if i.twitter %}
+                                <a class="btn btn-square btn-outline-primary border-2 m-1" href=""><i class="fab fa-twitter"></i></a>
+                                {% endif %}
+                                {% if i.instagram %}
+                                <a class="btn btn-square btn-outline-primary border-2 m-1" href=""><i class="fab fa-instagram"></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="bg-dark text-center p-4">
+                            <h5  style="color: #fff;" class="mt-2">{{i.nick}}</h5>
+                            {% if i == object.admin %}
+                            <span style="color: #fff;">Administrador</span>
+                            {% else %}
+                            <span style="color: #fff;">Jogador</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+    {% endblock %}

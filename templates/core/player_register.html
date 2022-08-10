@@ -1,0 +1,81 @@
+{% extends "core/base.html" %}
+
+{% block content %} 
+{% include 'core/navbar/register.html' %}
+{% load crispy_forms_tags %}         
+
+<!--Register--> 
+    <div class="main">
+            <div class="signup-content">
+<div class="container d-flex justify-content-center  py-5" style="color: #fff;">
+  <div class="row justify-content-center">
+    <div class="col-10">
+	<form>
+	<h1>Registro de Player</h1>
+
+		{% csrf_token %}
+		{{ register_form|crispy }}    
+		<br>
+		<button class="btn btn-primary" type="submit" id="submit">Registre-se</button>
+	</form>
+	<div id=results></div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+	// AJAX for posting
+
+	//  nick-section
+    //  birthday-section
+    //  ranking-section
+
+    {% if user.is_authenticated %}
+	function register_player() {
+		var ranking = $('#id_ranking').val();
+		var birth = $('#id_birth').val();
+		var ranking = $('#id_ranking').val();
+		if (ranking == '', birth=''){
+			return alert('COnfira o ranking ou a idade')
+		}
+    	console.log("create post is working!") // sanity check
+       	var formdata  = { 
+       		nick : $('#id_nick').val() ,
+       		birth : $('#id_birth').val(),
+			ranking : $('#id_ranking').val(),
+       		csrfmiddlewaretoken: "{{ csrf_token }}",
+			contentType: 'application/x-www-form-urlencoded',
+            encode: true,
+       	}; // data sent with the post request
+    	$.ajax({
+        	url : "{% url 'times:player-register' %}", // the endpoint
+        	type : "POST", // http method
+        	// handle a successful response
+        	data:formdata,
+        	dataType:'json',
+        	success : function(json) {
+         	   $('#post-text').val(''); // remove the value from the input
+         	   console.log(json); // log the returned json to the console
+         	   console.log("success"); // another sanity check
+         	   if (json.successful == true) {
+         	   	document.location = json.url
+         	   }
+    	    },
+        	// handle a non-successful response
+        	error : function(xhr,errmsg,err) {
+        	    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+            	console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+	        }
+	    });
+
+	};
+	document.getElementById("submit").addEventListener(
+		"click",
+		register_player
+	)
+	{% endif %}
+</script>
+{% endblock %}
