@@ -16,7 +16,7 @@ class GameCategory(models.Model):
 		return f'{self.name}'
 
 
-def game_image( filename, instanse):  
+def game_image( filename, instanse):
 	game_string = filename.name.replace(' ', '')
 	return os.path.join(f'photos_{game_string}',instanse)
 
@@ -72,7 +72,7 @@ class Time(models.Model):
 	admin = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='proprietario')
 	players = models.ManyToManyField(Player, related_name='times')
 	ranking = models.IntegerField(default=0)
-	
+
 	def __str__(self):
 		return f'{self.name}'
 	class Meta:
@@ -126,7 +126,7 @@ class Organization(models.Model):
 def championchip_banner(instanse, filename):
 	_s = instanse.title.replace(' ', '')
 	return os.path.join(f'championchip_{_s}/{instanse.pk}', filename)
-	
+
 class ChampionChip(models.Model):
 	is_lock = models.BooleanField(default=False)
 	title = models.CharField(max_length=255)
@@ -144,7 +144,8 @@ class ChampionChip(models.Model):
 		if self.in_game:
 			return len(self.in_game.all())
 		return 0
-
+	def get_absolute_url(self):
+		return "/capeonato/%i" % self.pk
 
 class Inscrisao(models.Model):
 	player = models.ForeignKey(Player, on_delete=models.CASCADE)

@@ -1,17 +1,18 @@
 from .main import (
     home,
     GameHome,
-    TimeSearch, 
-    SearchPlayers, 
-    UserRegister, 
-    PlayerRegister, 
+    TimeSearch,
+    SearchPlayers,
+    UserRegister,
+    PlayerRegister,
     TimeProfile,
     TimeRegister,
     PlayerProfile,
     test,
-    viewlogout, 
+    viewlogout,
     UserLogin,
-    ChampionShipList
+    ChampionShipList,
+    ChampionShipView
 )
 
 

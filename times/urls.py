@@ -17,6 +17,7 @@ urlpatterns = [
     path('logout/', views.viewlogout, name='logout'),
     path('login', views.UserLogin.as_view(), name='login'),
     path('campeonatos/', views.ChampionShipList.as_view() , name='champs'),
+    path('capeonato/<int:pk>', views.ChampionShipView.as_view(), name='champ'),
     path('ajax/time-register-form' ,views.TimeRegisterFormAjax.as_view(), name='time-register-form-ajax'),
     path('ajax/time-register' ,views.TimeRegisterAjax.as_view(), name='time-register-ajax')
 

@@ -18,7 +18,7 @@ def home(request):
 
 def makeChampiomchip(request):
 	form = ChampionChipForm(request.POST)
-	a = ChampionChip
+	#a = ChampionChip
 	return {}
 
 
@@ -192,13 +192,13 @@ class TimeProfile(DetailView, MyBaseView):
 		if 'player' in context.keys():
 			print(context['player'])
 			if PlayerConvit.objects.filter(
-				player=context['player'], 
+				player=context['player'],
 				time=Time.objects.get(pk=self.kwargs['pk']),
 				kick=False
 				).exists():
 				context['invit'] = PlayerConvit.objects.get(
-					player=context['player'], 
-					time=Time.objects.get(pk=self.kwargs['pk']), 
+					player=context['player'],
+					time=Time.objects.get(pk=self.kwargs['pk']),
 					kick=False
 				)
 			else:
@@ -209,7 +209,7 @@ class TimeProfile(DetailView, MyBaseView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super().get_context_data()
-		context.update(self.get_context_invitation())	
+		context.update(self.get_context_invitation())
 		print(context)
 		print(context['invit'])
 		return context
@@ -256,7 +256,7 @@ class TimeProfile(DetailView, MyBaseView):
 		)
 		else:
 			return redirect('times:time-profile', self.kwargs['pk'])
-		
+
 
 	def get(self, *args, **kwargs):
 
@@ -291,9 +291,19 @@ class TimeRegister(MyBaseView):
 class ChampionShipList(ListView, MyBaseView):
 	model = ChampionChip
 	template_name = 'games/champs.html'
-	def get(self, *args, **kwargs):
-		
-		return super().get(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context = super().get_context_data(*args, **kwargs)
+		context['objects'] = ChampionChip.objects.all()
+		return context
+
+
+
+class ChampionShipView(DetailView, MyBaseView):
+    model = ChampionChip
+    template_name = "games/championchip.html"
+
+
 
 
 class GameHome(MyBaseView):

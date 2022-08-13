@@ -30,10 +30,10 @@
 
 /********** Template CSS **********/
 :root {
-    --primary: #8E24AA;
-    --secondary: #757575;
-    --light: #F3F6F8;
-    --dark: #FFF;
+    --primary: #757575;
+    --secondary: #404040;
+    --light: #777777;
+    --dark: #070707;
 }
 
 body{
@@ -67,6 +67,7 @@ body{
 .card{
     border:none;
     color: #fff;
+    background-color: #282828;
     font-family: agency-fb;
     position:relative;
     overflow:hidden;
@@ -75,7 +76,7 @@ body{
 }
 
 .card:before{
-    
+
     content:"";
     position:absolute;
     left:0;
@@ -89,7 +90,7 @@ body{
 }
 
 .card:after{
-    
+
     content:"";
     position:absolute;
     left:0;
@@ -299,7 +300,7 @@ body{
         position: relative;
         min-height: 450px;
     }
-    
+
     #header-carousel .carousel-item img {
         position: absolute;
         width: 100%;

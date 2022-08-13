@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # apps
     'times.apps.TimesConfig',
     'crispy_forms',
+    'shop.apps.ShopConfig'
 ]
 
 MIDDLEWARE = [
